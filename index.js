@@ -23,11 +23,12 @@ function verifyJWT(req, res, next){
         if(err){
             return res.status(403).send({message: 'forbidden access'});
         }
-        console.log("decoded", decoded);
+        //console.log("decoded", decoded);
         req.decoded = decoded;
+        next();
     })
     //console.log('inside verifyJWT', authHeader);
-    next();
+    
 }
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qykb2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -99,7 +100,7 @@ async function run() {
 
         app.get('/order', verifyJWT, async (req, res) => {
 
-            const decodedEmail = req?.decoded?.email;
+            const decodedEmail = req.decoded.email;
             //const headerAuth = req.headers.authorization; function
             //console.log(headerAuth);
             const email = req.query.email;
@@ -133,9 +134,7 @@ run().catch(console.dir);
 app.get('/', (req, res) => {
     res.send('Running Car Server again');
 });
-app.get('/check', (req, res) => {
-    res.send('checking ...');
-});
+
 
 app.listen(port, () => {
     console.log("Listening to port", port);
