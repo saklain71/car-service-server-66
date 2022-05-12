@@ -135,6 +135,9 @@ app.get('/', (req, res) => {
     res.send('Running Car Server again');
 });
 
+app.get('/hero',(req, res)=>{
+    res.send('hero makes hero ku');
+})
 
 app.listen(port, () => {
     console.log("Listening to port", port);
